@@ -1,7 +1,7 @@
 #include "cvector.h"
 
 #pragma region Push Back / Push Front
-void cvpushback(cvector* cvec, type data) {
+void cv_pushback(cvector* cvec, type data) {
     if (cvec->cached <= 0)
         cb_cache((cbase*) cvec);
 
@@ -11,7 +11,7 @@ void cvpushback(cvector* cvec, type data) {
     cvec->cached --;
 };
 
-void cvpushfront(cvector* cvec, type data) {
+void cv_pushfront(cvector* cvec, type data) {
     if (cvec->cached <= 0)
         cb_cache((cbase*) cvec);
 
@@ -27,7 +27,7 @@ void cvpushfront(cvector* cvec, type data) {
 
 
 #pragma region Insert / Remove
-void cvinsert(cvector* cvec, ui32 pos, type data) {
+void cv_insert(cvector* cvec, ui32 pos, type data) {
     if (cvec->cached <= 0)
         cb_cache((cbase*) cvec);
 
@@ -40,7 +40,7 @@ void cvinsert(cvector* cvec, ui32 pos, type data) {
     cvec->cached--;
 };
 
-void cvremove(cvector* cvec, ui32 pos) {
+void cv_remove(cvector* cvec, ui32 pos) {
     if (cvec->cached <= 0)
         cb_cache((cbase*) cvec);
 
@@ -55,18 +55,18 @@ void cvremove(cvector* cvec, ui32 pos) {
 
 
 #pragma region Set / Get
-type cvget(cvector* cvec, ui32 pos) {
+type cv_get(cvector* cvec, ui32 pos) {
     return (type) *(cvec->memory + (pos * cvec->typesz));
 };
 
-void cvset(cvector* cvec, ui32 pos, type data) {
+void cv_set(cvector* cvec, ui32 pos, type data) {
     memcpy(cvec->memory + (pos * cvec->typesz), data, cvec->typesz);
 };
 #pragma endregion
 
 
 #pragma region Copy / Clone
-void cvcopy(cvector* cvecs, cvector* cvecd) {
+void cv_copy(cvector* cvecs, cvector* cvecd) {
     if (cvecs == NULL || cvecd == NULL)
         return;
 
@@ -75,7 +75,7 @@ void cvcopy(cvector* cvecs, cvector* cvecd) {
     memcpy(cvecd->memory, cvecs->memory, cvecs->length * cvecs->typesz);
 };
 
-cvector* cvclone(cvector* cvecs) {
+cvector* cv_clone(cvector* cvecs) {
     if (cvecs == NULL)
         return NULL;
 
@@ -87,7 +87,7 @@ cvector* cvclone(cvector* cvecs) {
 
 
 #pragma region Swap / Reverse
-void cvswap(cvector* cvec, ui32 posx, ui32 posy) {
+void cv_swap(cvector* cvec, ui32 posx, ui32 posy) {
     if (posx != posy && posx < cvec->length && posy < cvec->length) {
         ui08* b1 = cvec->memory + (posx * cvec->typesz),
             *b2 = cvec->memory + (posy * cvec->typesz);
@@ -100,84 +100,8 @@ void cvswap(cvector* cvec, ui32 posx, ui32 posy) {
     }
 };
 
-void cvreverse(cvector* cvec) {
+void cv_reverse(cvector* cvec) {
     for (ui32 i = 0, sr = cvec->length, s = sr-- / 2; i < s; i++)
-        cvswap(cvec, i, sr - i);
-};
-#pragma endregion
-
-
-#pragma region Clear / Empty
-void cvclear(cvector* cvec) {
-    if (cvec == NULL)
-        return;
-
-    free(cvec->memory);
-};
-
-cbool cvempty(cvector* cvec) {
-    return (cvec != NULL && cvec->memory != NULL && cvec->length > 0) ? c_false : c_true;
-};
-#pragma endregion
-
-
-#pragma region Iterators
-cviter cvbegin(cvector* cvec) {
-    cviter iter;
-    iter.iteration = cvec->memory;
-    iter.iterpos = cv_begin;
-    iter.memory = cvec;
-    return iter;
-};
-
-cviter cvend(cvector* cvec) {
-    cviter iter;
-    iter.iteration = cvec->memory + (cvec->length * cvec->typesz);
-    iter.iterpos = cv_end;
-    iter.memory = cvec;
-    return iter;
-};
-
-cviter cvrbegin(cvector* cvec) {
-    cviter iter;
-    iter.iteration = cvec->memory + (cvec->length * cvec->typesz) + cvec->typesz;
-    iter.iterpos = cv_rbegin;
-    iter.memory = cvec;
-    return iter;
-};
-
-cviter cvrend(cvector* cvec) {
-    cviter iter;
-    iter.iteration = cvec->memory - cvec->typesz;
-    iter.iterpos = cv_rend;
-    iter.memory = cvec;
-    return iter;
-};
-#pragma endregion
-
-
-#pragma region Byte (Size / Max Size)
-ui32 cvsize(cvector* cvec) {
-    if (cvec->memory == NULL)
-        return 0;
-    return cvec->length * cvec->typesz;
-};
-
-ui32 cvcachesize(cvector* cvec) {
-    if (cvec->memory == NULL)
-        return 0;
-    return cvec->cached * cvec->typesz;
-};
-
-ui32 cvmaxsize(cvector* cvec) {
-    if (cvec->memory == NULL)
-        return 0;
-    return (cvec->length + cvec->cachesz) * cvec->typesz;
-};
-
-ui32 cvcount(cvector* cvec) {
-    if (cvec == NULL)
-        return 0;
-    return cvec->length;
+        cv_swap(cvec, i, sr - i);
 };
 #pragma endregion
