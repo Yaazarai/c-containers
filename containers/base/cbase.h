@@ -22,7 +22,7 @@
     typedef unsigned char ui08;
     typedef void* type;
 
-    typedef enum cv_bool {
+    typedef enum cb_bool {
         c_false, c_true
     } cbool;
 
@@ -31,13 +31,49 @@
         ui08* memory;
     } cbase;
 
+    typedef enum cb_iterpos {
+        cbbegin, cbend, cbrbegin, cbrend
+    } cbiterpos;
+
+    typedef struct cb_iter {
+        void* memory;
+        ui08* iteration;
+        enum cbiterpos iterpos;
+    } cbiter;
+
     cbase* cb_alloc(ui32 strcsz, ui32 typesz, ui32 cachesz);
     void cb_free(cbase* cbse);
     cbool cb_cache(cbase* cbse);
     cbool cb_resize(cbase* cbse, ui32 length);
 
+    void cb_clear(cbase* cbse);
+    cbool cb_empty(cbase* cbse);
+
+    ui32 cb_size(cbase* cbse);
+    ui32 cb_cachesize(cbase* cbse);
+    ui32 cb_maxsize(cbase* cbse);
+    ui32 cb_count(cbase* cbse);
+
+    cbiter cb_begin(cbase* cbse);
+    cbiter cb_end(cbase* cbse);
+    cbiter cb_rbegin(cbase* cbse);
+    cbiter cb_rend(cbase* cbse);
+
     #define cb_allocg(strc, ty, cachesz) (strc*) cb_alloc(sizeof(strc), sizeof(ty), cachesz)
     #define cb_freeg(ptr) cb_free((cbase*) ptr)
     #define cb_cacheg(ptr) cb_cache((cbase*) ptr)
     #define cb_resizeg(ptr, length) cb_resize((cbase*) ptr, length)
+
+    #define cb_clearg(ptr) cb_clear((cbase*) ptr)
+    #define cb_emptyg(ptr) cb_empty((cbase*) ptr)
+
+    #define cb_sizeg(ptr) cb_size((cbase*) ptr)
+    #define cb_cachesizeg(ptr) cb_cachesize((cbase*) ptr)
+    #define cb_maxsizeg(ptr) cb_maxsize((cbase*) ptr)
+    #define cb_countg(ptr) cb_count((cbase*) ptr)
+
+    #define cb_beging(ptr) cb_begin((cbase*) ptr)
+    #define cb_endg(ptr) cb_end((cbase*) ptr)
+    #define cb_rbeging(ptr) cb_rbegin((cbase*) ptr)
+    #define cb_rendg(ptr) cb_rend((cbase*) ptr)
 #endif
