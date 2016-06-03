@@ -3,7 +3,7 @@
 #pragma region Push Back / Push Front
 void cvpushback(cvector* cvec, type data) {
     if (cvec->cached <= 0)
-        cvcache(cvec);
+        cb_cache((cbase*) cvec);
 
     memcpy(cvec->memory + (cvec->length * cvec->typesz), data, cvec->typesz);
     
@@ -13,7 +13,7 @@ void cvpushback(cvector* cvec, type data) {
 
 void cvpushfront(cvector* cvec, type data) {
     if (cvec->cached <= 0)
-        cvcache(cvec);
+        cb_cache((cbase*) cvec);
 
     if (cvec->length > 0)
         memmove(cvec->memory + cvec->typesz, cvec->memory, cvec->length * cvec->typesz);
@@ -29,7 +29,7 @@ void cvpushfront(cvector* cvec, type data) {
 #pragma region Insert / Remove
 void cvinsert(cvector* cvec, ui32 pos, type data) {
     if (cvec->cached <= 0)
-        cvcache(cvec);
+        cb_cache((cbase*) cvec);
 
     if (cvec->length > 0)
         memmove(cvec->memory + ((pos + 1) * cvec->typesz), cvec->memory + (pos * cvec->typesz), (cvec->length - pos) * cvec->typesz);
@@ -42,7 +42,7 @@ void cvinsert(cvector* cvec, ui32 pos, type data) {
 
 void cvremove(cvector* cvec, ui32 pos) {
     if (cvec->cached <= 0)
-        cvcache(cvec);
+        cb_cache((cbase*) cvec);
 
     if (cvec->length > 0) {
         memmove(cvec->memory + (pos * cvec->typesz), cvec->memory + ((pos + 1) * cvec->typesz), (cvec->length - pos) * cvec->typesz);
@@ -71,7 +71,7 @@ void cvcopy(cvector* cvecs, cvector* cvecd) {
         return;
 
     free(cvecd);
-    cvecd = cvalloc(cvecs->typesz, cvecs->cachesz);
+    cvecd = (cvector*) cb_alloc(sizeof(cvecs), cvecs->typesz, cvecs->cachesz);
     memcpy(cvecd->memory, cvecs->memory, cvecs->length * cvecs->typesz);
 };
 
@@ -79,7 +79,7 @@ cvector* cvclone(cvector* cvecs) {
     if (cvecs == NULL)
         return NULL;
 
-    cvector* cvecd = cvalloc(cvecs->typesz, cvecs->cachesz);
+    cvector* cvecd = (cvector*) cb_alloc(sizeof(cvecs), cvecs->typesz, cvecs->cachesz);
     memcpy(cvecd->memory, cvecs->memory, cvecs->length * cvecs->typesz);
     return cvecd;
 };
