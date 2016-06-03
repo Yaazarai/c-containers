@@ -57,3 +57,79 @@ cbool cb_resize(cbase* cbse, ui32 length) {
     return (cbse->memory == NULL) ? c_false : c_true;
 };
 #pragma endregion
+
+
+#pragma region Clear / Empty
+void cb_clear(cbase* cbse) {
+    if (cbse == NULL)
+        return;
+
+    free(cbse->memory);
+};
+
+cbool cb_empty(cbase* cbse) {
+    return (cbse != NULL && cbse->memory != NULL && cbse->length > 0) ? c_false : c_true;
+};
+#pragma endregion
+
+
+#pragma region Byte (Size / Max Size)
+ui32 cb_size(cbase* cbse) {
+    if (cbse->memory == NULL)
+        return 0;
+    return cbse->length * cbse->typesz;
+};
+
+ui32 cb_cachesize(cbase* cbse) {
+    if (cbse->memory == NULL)
+        return 0;
+    return cbse->cached * cbse->typesz;
+};
+
+ui32 cb_maxsize(cbase* cbse) {
+    if (cbse->memory == NULL)
+        return 0;
+    return (cbse->length + cbse->cachesz) * cbse->typesz;
+};
+
+ui32 cb_count(cbase* cbse) {
+    if (cbse == NULL)
+        return 0;
+    return cbse->length;
+};
+#pragma endregion
+
+
+#pragma region Iterators
+cbiter cb_begin(cbase* cbse) {
+    cbiter iter;
+    iter.iteration = cbse->memory;
+    iter.iterpos = cbbegin;
+    iter.memory = cbse;
+    return iter;
+};
+
+cbiter cb_end(cbase* cbse) {
+    cbiter iter;
+    iter.iteration = cbse->memory + (cbse->length * cbse->typesz);
+    iter.iterpos = cbend;
+    iter.memory = cbse;
+    return iter;
+};
+
+cbiter cb_rbegin(cbase* cbse) {
+    cbiter iter;
+    iter.iteration = cbse->memory + (cbse->length * cbse->typesz) + cbse->typesz;
+    iter.iterpos = cbrbegin;
+    iter.memory = cbse;
+    return iter;
+};
+
+cbiter cb_rend(cbase* cbse) {
+    cbiter iter;
+    iter.iteration = cbse->memory - cbse->typesz;
+    iter.iterpos = cbrend;
+    iter.memory = cbse;
+    return iter;
+};
+#pragma endregion
