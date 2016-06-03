@@ -4,50 +4,40 @@
     #include <string.h>
     #include "base\cbase.h"
 
-    typedef enum cv_iterpos {
-        cv_begin, cv_end, cv_rbegin, cv_rend
-    } cviterpos;
-
     typedef struct c_vector {
         ui32 typesz, cachesz, length, cached;
         ui08* memory;
     } cvector;
-
-    typedef struct cv_iter {
-        cvector* memory;
-        ui08* iteration;
-        enum cviterpos iterpos;
-    } cviter;
 
     #define cv_alloc(strc, ty, cachesz) cb_allocg(strc, ty, cachesz)
     #define cv_free(ptr) cb_freeg(ptr)
     #define cv_cache(ptr) cb_cacheg(ptr)
     #define cv_resize(ptr, length) cb_resizeg(ptr, length)
 
-    void cvpushback(cvector* cvec, type data);
-    void cvpushfront(cvector* cvec, type data);
-    void cvinsert(cvector* cvec, ui32 pos, type data);
-    void cvremove(cvector* cvec, ui32 pos);
+    #define cv_clear(ptr) cb_clearg(ptr)
+    #define cv_empty(ptr) cb_emptyg(ptr)
 
-    type cvget(cvector* cvec, ui32 pos);
-    void cvset(cvector* cvec, ui32 pos, type data);
+    #define cv_size(ptr) cb_sizeg(ptr)
+    #define cv_cachesize(ptr) cb_cachesizeg(ptr)
+    #define cv_maxsize(ptr) cb_maxsizeg(ptr)
+    #define cv_count(ptr) cb_countg(ptr)
 
-    void cvcopy(cvector* cvecs, cvector* cvecd);
-    cvector* cvclone(cvector* cvec);
+    #define cv_begin(ptr) cb_beging(ptr)
+    #define cv_end(ptr) cb_endg(ptr)
+    #define cv_rbegin(ptr) cb_rbeging(ptr)
+    #define cv_rend(ptr) cb_rendg(ptr)
 
-    void cvswap(cvector* cvec, ui32 posx, ui32 posy);
-    void cvreverse(cvector* cvec);
+    void cv_pushback(cvector* cvec, type data);
+    void cv_pushfront(cvector* cvec, type data);
+    void cv_insert(cvector* cvec, ui32 pos, type data);
+    void cv_remove(cvector* cvec, ui32 pos);
 
-    void cvclear(cvector* cvec);
-    cbool cvempty(cvector* cvec);
+    type cv_get(cvector* cvec, ui32 pos);
+    void cv_set(cvector* cvec, ui32 pos, type data);
 
-    cviter cvbegin(cvector* cvec);
-    cviter cvend(cvector* cvec);
-    cviter cvrbegin(cvector* cvec);
-    cviter cvrend(cvector* cvec);
+    void cv_copy(cvector* cvecs, cvector* cvecd);
+    cvector* cv_clone(cvector* cvec);
 
-    ui32 cvsize(cvector* cvec);
-    ui32 cvcachesize(cvector* cvec);
-    ui32 cvmaxsize(cvector* cvec);
-    ui32 cvcount(cvector* cvec);
+    void cv_swap(cvector* cvec, ui32 posx, ui32 posy);
+    void cv_reverse(cvector* cvec);
 #endif
