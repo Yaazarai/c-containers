@@ -17,6 +17,7 @@
 #define CONTAINER_BASE
     #include <stdlib.h>
     #include <string.h>
+    #include "nullmem.h"
     
     typedef unsigned int ui32;
     typedef unsigned char ui08;
