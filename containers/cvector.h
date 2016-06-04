@@ -2,14 +2,14 @@
 #define C_VECTOR
     #include <stdlib.h>
     #include <string.h>
-    #include "base\cbase.h"
+    #include "cbase.h"
 
     typedef struct c_vector {
         ui32 typesz, cachesz, length, cached;
         ui08* memory;
     } cvector;
 
-    #define cv_alloc(strc, ty, cachesz) cb_allocg(strc, ty, cachesz)
+    #define cv_alloc(ty, cachesz) cb_allocg(cvector, ty, cachesz)
     #define cv_free(ptr) cb_freeg(ptr)
     #define cv_cache(ptr) cb_cacheg(ptr)
     #define cv_resize(ptr, length) cb_resizeg(ptr, length)
