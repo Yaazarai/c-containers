@@ -64,7 +64,7 @@ void cstr_removec(cstring* csbd, ui32 pos, ui32 count) {
     if (csbd->string == NULL)
         return;
     
-    for(int i = 0; i < (count || (pos + i > csbd->string->length)); i ++)
+    for(ui32 i = 0; (i < count) && ((pos + i) < csbd->string->length); i ++)
         cv_remove(csbd->string, pos);
 };
 
