@@ -1,4 +1,6 @@
 # c-containers
+Uses nullmem from the following repo: https://github.com/FatalSleep/null-terminated-memory
+
 Dynamic memory containers for C:
 - CBase (generic container)
 - CVector
