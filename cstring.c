@@ -66,6 +66,10 @@ void cstr_removec(cstring* csbd, ui32 pos, ui32 count) {
         cv_remove(csbd->string, pos);
 };
 
+void cstr_concat(cstring* cstrd, cstring* cstrs) {
+    cstr_append(cstrd, cstrs->string->memory->pointer);
+};
+
 const ui08* cstr_getstring(cstring* csbd) {
     if (csbd->cachedstr != NULL && csbd->cachedstr->pointer != NULL)
         return csbd->cachedstr->pointer;
