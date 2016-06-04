@@ -8,7 +8,7 @@ void cstr_clearcache(cstring* csbd) {
 };
 
 cstring* cstr_alloc(char* str) {
-    cstring* cstr = (cstring*)malloc(sizeof(cstring));
+    cstring* cstr = (cstring*)callocg(sizeof(cstring));
     cstr->string = NULL;
     cstr->cachedstr = NULL;
     cstr_append(cstr, str);
