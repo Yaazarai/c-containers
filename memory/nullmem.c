@@ -1,15 +1,15 @@
 #include "nullmem.h"
 
 #pragma region Null Terminated Memory
-void* reallocg(void* ptr, size_t size) {
-    void* nptr = calloc(size + 1, 1);
+void* reallocg(void* ptr, size_t oldsz, size_t newsz) {
+    void* nptr = calloc(newsz + 1, sizeof(char));
 
     if (nptr != NULL) {
         if (ptr == NULL)
             return nptr;
 
-        size_t plen = strlen((char*)ptr);
-        memcpy(nptr, ptr, (size > plen) ? plen : size);
+        size_t plen = oldsz;
+        memcpy(nptr, ptr, (newsz > plen) ? plen : newsz);
 
         free(ptr);
         return nptr;

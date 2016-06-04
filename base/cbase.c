@@ -7,7 +7,7 @@ cbase* cb_alloc(ui32 structsz, ui32 typesz, ui32 cachesz) {
     cstk->cachesz = cachesz;
     cstk->length = 0;
     cstk->cached = cachesz;
-    cstk->memory = (ui08*)callocg(cachesz, typesz);
+    cstk->memory = (ui08*)callocg(cachesz * typesz);
     return cstk;
 };
 
@@ -35,11 +35,11 @@ cbool cb_resize(cbase* cbse, ui32 length) {
         return c_false;
 
     if (cbse->memory == NULL) {
-        cbse->memory = callocg(length * cbse->typesz, sizeof(ui08));
+        cbse->memory = callocg(length * cbse->typesz);
         cbse->length = 0;
         cbse->cached = length;
     } else {
-        ui08* memory = reallocg(cbse->memory, length * cbse->typesz);
+        ui08* memory = reallocg(cbse->memory, cbse->length, length * cbse->typesz);
 
         if (memory != NULL) {
             cbse->memory = memory;
@@ -118,7 +118,7 @@ cbiter cb_end(cbase* cbse) {
 
 cbiter cb_rbegin(cbase* cbse) {
     cbiter iter;
-    iter.iteration = cbse->memory + (cbse->length * cbse->typesz) + cbse->typesz;
+    iter.iteration = cbse->memory + (cbse->length * cbse->typesz) - cbse->typesz;
     iter.iterpos = cbrbegin;
     iter.memory = cbse;
     return iter;
