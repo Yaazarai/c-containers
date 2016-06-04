@@ -3,7 +3,7 @@
 #pragma region Push Back / Push Front
 void cv_pushback(cvector* cvec, type data) {
     if (cvec->cached == 0)
-        cb_cache((cbase*) cvec);
+        ca_cache((carray*) cvec);
 
     memcpy(cvec->memory->pointer + (cvec->length * cvec->typesz), data, cvec->typesz);
     
@@ -13,7 +13,7 @@ void cv_pushback(cvector* cvec, type data) {
 
 void cv_pushfront(cvector* cvec, type data) {
     if (cvec->cached == 0)
-        cb_cache((cbase*) cvec);
+        ca_cache((carray*) cvec);
 
     if (cvec->length > 0)
         memmove(cvec->memory->pointer + cvec->typesz, cvec->memory->pointer, cvec->length * cvec->typesz);
@@ -29,7 +29,7 @@ void cv_pushfront(cvector* cvec, type data) {
 #pragma region Insert / Remove
 void cv_insert(cvector* cvec, ui32 pos, type data) {
     if (cvec->cached == 0)
-        cb_cache((cbase*) cvec);
+        ca_cache((carray*) cvec);
 
     if (cvec->length > 0)
         memmove(cvec->memory->pointer + ((pos + 1) * cvec->typesz), cvec->memory->pointer + (pos * cvec->typesz), (cvec->length - pos) * cvec->typesz);
@@ -42,7 +42,7 @@ void cv_insert(cvector* cvec, ui32 pos, type data) {
 
 void cv_remove(cvector* cvec, ui32 pos) {
     if (cvec->cached == 0)
-        cb_cache((cbase*) cvec);
+        ca_cache((carray*) cvec);
 
     if (cvec->length > 0) {
         memmove(cvec->memory->pointer + (pos * cvec->typesz), cvec->memory->pointer + ((pos + 1) * cvec->typesz), (cvec->length - pos) * cvec->typesz);
@@ -71,7 +71,7 @@ void cv_copy(cvector* cvecs, cvector* cvecd) {
         return;
 
     free(cvecd);
-    cvecd = (cvector*) cb_alloc(sizeof(cvecs), cvecs->typesz, cvecs->cachesz);
+    cvecd = (cvector*) ca_alloc(sizeof(cvecs), cvecs->typesz, cvecs->cachesz);
     memcpy(cvecd->memory->pointer, cvecs->memory->pointer, cvecs->length * cvecs->typesz);
 };
 
@@ -79,7 +79,7 @@ cvector* cv_clone(cvector* cvecs) {
     if (cvecs == NULL)
         return NULL;
 
-    cvector* cvecd = (cvector*) cb_alloc(sizeof(cvecs), cvecs->typesz, cvecs->cachesz);
+    cvector* cvecd = (cvector*) ca_alloc(sizeof(cvecs), cvecs->typesz, cvecs->cachesz);
     memcpy(cvecd->memory->pointer, cvecs->memory->pointer, cvecs->length * cvecs->typesz);
     return cvecd;
 };

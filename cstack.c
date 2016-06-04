@@ -7,7 +7,7 @@ type cs_top(cstack* cstk) {
 
 void cs_push(cstack* cstk, type data) {
     if (cstk->cached == 0)
-        cb_cache((cbase*) cstk);
+        ca_cache((carray*) cstk);
 
     memcpy(cstk->memory->pointer + (cstk->length * cstk->typesz), data, cstk->typesz);
 

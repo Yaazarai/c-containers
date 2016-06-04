@@ -2,30 +2,30 @@
 #define C_VECTOR
     #include <stdlib.h>
     #include <string.h>
-    #include "cbase.h"
+    #include "carray.h"
 
     typedef struct c_vector {
         ui32 typesz, cachesz, length, cached;
         memory* memory;
     } cvector;
 
-    #define cv_alloc(ty, cachesz) cb_allocg(cvector, ty, cachesz)
-    #define cv_free(ptr) cb_freeg(ptr)
-    #define cv_cache(ptr) cb_cacheg(ptr)
-    #define cv_resize(ptr, length) cb_resizeg(ptr, length)
+    #define cv_alloc(ty, cachesz) ca_allocg(cvector, ty, cachesz)
+    #define cv_free(ptr) ca_freeg(ptr)
+    #define cv_cache(ptr) ca_cacheg(ptr)
+    #define cv_resize(ptr, length) ca_resizeg(ptr, length)
 
-    #define cv_clear(ptr) cb_clearg(ptr)
-    #define cv_empty(ptr) cb_emptyg(ptr)
+    #define cv_clear(ptr) ca_clearg(ptr)
+    #define cv_empty(ptr) ca_emptyg(ptr)
 
-    #define cv_size(ptr) cb_sizeg(ptr)
-    #define cv_cachesize(ptr) cb_cachesizeg(ptr)
-    #define cv_maxsize(ptr) cb_maxsizeg(ptr)
-    #define cv_count(ptr) cb_countg(ptr)
+    #define cv_size(ptr) ca_sizeg(ptr)
+    #define cv_cachesize(ptr) ca_cachesizeg(ptr)
+    #define cv_maxsize(ptr) ca_maxsizeg(ptr)
+    #define cv_count(ptr) ca_countg(ptr)
 
-    #define cv_begin(ptr) cb_beging(ptr)
-    #define cv_end(ptr) cb_endg(ptr)
-    #define cv_rbegin(ptr) cb_rbeging(ptr)
-    #define cv_rend(ptr) cb_rendg(ptr)
+    #define cv_begin(ptr) ca_beging(ptr)
+    #define cv_end(ptr) ca_endg(ptr)
+    #define cv_rbegin(ptr) ca_rbeging(ptr)
+    #define cv_rend(ptr) ca_rendg(ptr)
 
     void cv_pushback(cvector* cvec, type data);
     void cv_pushfront(cvector* cvec, type data);
