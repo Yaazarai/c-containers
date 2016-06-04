@@ -6,7 +6,7 @@
 
     typedef struct c_vector {
         ui32 typesz, cachesz, length, cached;
-        ui08* memory;
+        memory* memory;
     } cvector;
 
     #define cv_alloc(ty, cachesz) cb_allocg(cvector, ty, cachesz)

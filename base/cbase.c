@@ -1,13 +1,12 @@
 #include "cbase.h"
-
 #pragma region Alloc / Free
 cbase* cb_alloc(ui32 structsz, ui32 typesz, ui32 cachesz) {
-    cbase* cstk = (cbase*) callocg(structsz);
+    cbase* cstk = (cbase*) calloc(structsz, sizeof(ui08));
     cstk->typesz = typesz;
     cstk->cachesz = cachesz;
     cstk->length = 0;
     cstk->cached = cachesz;
-    cstk->memory = (ui08*)callocg(cachesz * typesz);
+    cstk->memory = callocg(cachesz * typesz);
     return cstk;
 };
 
@@ -16,7 +15,7 @@ void cb_free(cbase* cbse) {
         return;
 
     if (cbse->memory != NULL)
-        free(cbse->memory);
+        freeg(cbse->memory);
     free(cbse);
 };
 #pragma endregion
@@ -39,11 +38,9 @@ cbool cb_resize(cbase* cbse, ui32 length) {
         cbse->length = 0;
         cbse->cached = length;
     } else {
-        ui08* memory = reallocg(cbse->memory, cbse->length, length * cbse->typesz);
+        reallocg(cbse->memory, length * cbse->typesz);
 
-        if (memory != NULL) {
-            cbse->memory = memory;
-
+        if (cbse->memory != NULL) {
             if (length < cbse->length) {
                 cbse->length = length;
                 cbse->cached = 0;
@@ -63,7 +60,7 @@ void cb_clear(cbase* cbse) {
     if (cbse == NULL)
         return;
 
-    free(cbse->memory);
+    freeg(cbse->memory);
 };
 
 cbool cb_empty(cbase* cbse) {
@@ -102,7 +99,7 @@ ui32 cb_count(cbase* cbse) {
 #pragma region Iterators
 cbiter cb_begin(cbase* cbse) {
     cbiter iter;
-    iter.iteration = cbse->memory;
+    iter.iteration = cbse->memory->pointer;
     iter.iterpos = cbbegin;
     iter.memory = cbse;
     return iter;
@@ -110,7 +107,7 @@ cbiter cb_begin(cbase* cbse) {
 
 cbiter cb_end(cbase* cbse) {
     cbiter iter;
-    iter.iteration = cbse->memory + (cbse->length * cbse->typesz);
+    iter.iteration = cbse->memory->pointer + (cbse->length * cbse->typesz);
     iter.iterpos = cbend;
     iter.memory = cbse;
     return iter;
@@ -118,7 +115,7 @@ cbiter cb_end(cbase* cbse) {
 
 cbiter cb_rbegin(cbase* cbse) {
     cbiter iter;
-    iter.iteration = cbse->memory + (cbse->length * cbse->typesz) - cbse->typesz;
+    iter.iteration = cbse->memory->pointer + (cbse->length * cbse->typesz) - cbse->typesz;
     iter.iterpos = cbrbegin;
     iter.memory = cbse;
     return iter;
@@ -126,7 +123,7 @@ cbiter cb_rbegin(cbase* cbse) {
 
 cbiter cb_rend(cbase* cbse) {
     cbiter iter;
-    iter.iteration = cbse->memory - cbse->typesz;
+    iter.iteration = cbse->memory->pointer - cbse->typesz;
     iter.iterpos = cbrend;
     iter.memory = cbse;
     return iter;

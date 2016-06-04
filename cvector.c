@@ -5,7 +5,7 @@ void cv_pushback(cvector* cvec, type data) {
     if (cvec->cached == 0)
         cb_cache((cbase*) cvec);
 
-    memcpy(cvec->memory + (cvec->length * cvec->typesz), data, cvec->typesz);
+    memcpy(cvec->memory->pointer + (cvec->length * cvec->typesz), data, cvec->typesz);
     
     cvec->length ++;
     cvec->cached --;
@@ -16,9 +16,9 @@ void cv_pushfront(cvector* cvec, type data) {
         cb_cache((cbase*) cvec);
 
     if (cvec->length > 0)
-        memmove(cvec->memory + cvec->typesz, cvec->memory, cvec->length * cvec->typesz);
+        memmove(cvec->memory->pointer + cvec->typesz, cvec->memory->pointer, cvec->length * cvec->typesz);
     
-    memcpy(cvec->memory, data, cvec->typesz);
+    memcpy(cvec->memory->pointer, data, cvec->typesz);
 
     cvec->length++;
     cvec->cached--;
@@ -32,9 +32,9 @@ void cv_insert(cvector* cvec, ui32 pos, type data) {
         cb_cache((cbase*) cvec);
 
     if (cvec->length > 0)
-        memmove(cvec->memory + ((pos + 1) * cvec->typesz), cvec->memory + (pos * cvec->typesz), (cvec->length - pos) * cvec->typesz);
+        memmove(cvec->memory->pointer + ((pos + 1) * cvec->typesz), cvec->memory->pointer + (pos * cvec->typesz), (cvec->length - pos) * cvec->typesz);
 
-    memcpy(cvec->memory + (pos * cvec->typesz), data, cvec->typesz);
+    memcpy(cvec->memory->pointer + (pos * cvec->typesz), data, cvec->typesz);
 
     cvec->length++;
     cvec->cached--;
@@ -45,7 +45,7 @@ void cv_remove(cvector* cvec, ui32 pos) {
         cb_cache((cbase*) cvec);
 
     if (cvec->length > 0) {
-        memmove(cvec->memory + (pos * cvec->typesz), cvec->memory + ((pos + 1) * cvec->typesz), (cvec->length - pos) * cvec->typesz);
+        memmove(cvec->memory->pointer + (pos * cvec->typesz), cvec->memory->pointer + ((pos + 1) * cvec->typesz), (cvec->length - pos) * cvec->typesz);
 
         cvec->length--;
         cvec->cached++;
@@ -56,11 +56,11 @@ void cv_remove(cvector* cvec, ui32 pos) {
 
 #pragma region Set / Get
 type cv_get(cvector* cvec, ui32 pos) {
-    return (type) *(cvec->memory + (pos * cvec->typesz));
+    return (type) *(cvec->memory->pointer + (pos * cvec->typesz));
 };
 
 void cv_set(cvector* cvec, ui32 pos, type data) {
-    memcpy(cvec->memory + (pos * cvec->typesz), data, cvec->typesz);
+    memcpy(cvec->memory->pointer + (pos * cvec->typesz), data, cvec->typesz);
 };
 #pragma endregion
 
@@ -72,7 +72,7 @@ void cv_copy(cvector* cvecs, cvector* cvecd) {
 
     free(cvecd);
     cvecd = (cvector*) cb_alloc(sizeof(cvecs), cvecs->typesz, cvecs->cachesz);
-    memcpy(cvecd->memory, cvecs->memory, cvecs->length * cvecs->typesz);
+    memcpy(cvecd->memory->pointer, cvecs->memory->pointer, cvecs->length * cvecs->typesz);
 };
 
 cvector* cv_clone(cvector* cvecs) {
@@ -80,7 +80,7 @@ cvector* cv_clone(cvector* cvecs) {
         return NULL;
 
     cvector* cvecd = (cvector*) cb_alloc(sizeof(cvecs), cvecs->typesz, cvecs->cachesz);
-    memcpy(cvecd->memory, cvecs->memory, cvecs->length * cvecs->typesz);
+    memcpy(cvecd->memory->pointer, cvecs->memory->pointer, cvecs->length * cvecs->typesz);
     return cvecd;
 };
 #pragma endregion
@@ -89,8 +89,8 @@ cvector* cv_clone(cvector* cvecs) {
 #pragma region Swap / Reverse
 void cv_swap(cvector* cvec, ui32 posx, ui32 posy) {
     if (posx != posy && posx < cvec->length && posy < cvec->length) {
-        ui08* b1 = cvec->memory + (posx * cvec->typesz),
-            *b2 = cvec->memory + (posy * cvec->typesz);
+        ui08* b1 = cvec->memory->pointer + (posx * cvec->typesz),
+            *b2 = cvec->memory->pointer + (posy * cvec->typesz);
 
         for (ui32 i = 0; i < cvec->typesz; i++) {
             *b1 ^= *b2 ^= *b1 ^= *b2;

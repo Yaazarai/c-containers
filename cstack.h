@@ -6,7 +6,7 @@
 
     typedef struct c_stack {
         ui32 typesz, cachesz, length, cached;
-        ui08* memory;
+        memory* memory;
     } cstack;
 
     #define cs_alloc(ty, cachesz) cb_allocg(cstack, ty, cachesz)

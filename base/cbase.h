@@ -17,7 +17,7 @@
 #define CONTAINER_BASE
     #include <stdlib.h>
     #include <string.h>
-    #include "nullmem.h"
+    #include "memory.h"
     
     typedef unsigned int ui32;
     typedef unsigned char ui08;
@@ -29,7 +29,7 @@
 
     typedef struct c_base {
         ui32 typesz, cachesz, length, cached;
-        ui08* memory;
+        memory* memory;
     } cbase;
 
     typedef enum cb_iterpos {

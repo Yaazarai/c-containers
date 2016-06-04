@@ -6,7 +6,7 @@
 
     typedef struct c_string {
         cvector* string;
-        ui08* cachedstr;
+        memory* cachedstr;
     } cstring;
 
     #define cstr_allocg() cstr_alloc(NULL)
