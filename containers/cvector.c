@@ -2,7 +2,7 @@
 
 #pragma region Push Back / Push Front
 void cv_pushback(cvector* cvec, type data) {
-    if (cvec->cached <= 0)
+    if (cvec->cached == 0)
         cb_cache((cbase*) cvec);
 
     memcpy(cvec->memory + (cvec->length * cvec->typesz), data, cvec->typesz);
@@ -12,7 +12,7 @@ void cv_pushback(cvector* cvec, type data) {
 };
 
 void cv_pushfront(cvector* cvec, type data) {
-    if (cvec->cached <= 0)
+    if (cvec->cached == 0)
         cb_cache((cbase*) cvec);
 
     if (cvec->length > 0)
@@ -28,7 +28,7 @@ void cv_pushfront(cvector* cvec, type data) {
 
 #pragma region Insert / Remove
 void cv_insert(cvector* cvec, ui32 pos, type data) {
-    if (cvec->cached <= 0)
+    if (cvec->cached == 0)
         cb_cache((cbase*) cvec);
 
     if (cvec->length > 0)
@@ -41,7 +41,7 @@ void cv_insert(cvector* cvec, ui32 pos, type data) {
 };
 
 void cv_remove(cvector* cvec, ui32 pos) {
-    if (cvec->cached <= 0)
+    if (cvec->cached == 0)
         cb_cache((cbase*) cvec);
 
     if (cvec->length > 0) {
