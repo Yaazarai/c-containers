@@ -61,6 +61,9 @@ void cstr_remove(cstring* csbd, ui32 pos) {
 };
 
 void cstr_removec(cstring* csbd, ui32 pos, ui32 count) {
+    if (csbd->string == NULL)
+        return;
+    
     for(int i = 0; i < (csbd->string->length - (pos + count)); i ++)
         cv_remove(csbd->string, pos);
 };
@@ -68,6 +71,8 @@ void cstr_removec(cstring* csbd, ui32 pos, ui32 count) {
 const ui08* cstr_getstring(cstring* csbd) {
     if (csbd->cachedstr != NULL)
         return csbd->cachedstr;
+    if (csbd->string == NULL || csbd->string->length == 0)
+        return NULL;
 
     ui08* cachedstr = (ui08*) calloc(csbd->string->length + 1, 1);
     memcpy(cachedstr, csbd->string->memory, csbd->string->length);
