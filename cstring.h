@@ -17,5 +17,6 @@
     void cstr_insert(cstring* csbd, ui32 pos, char* str);
     void cstr_remove(cstring* csbd, ui32 pos);
     void cstr_removec(cstring* csbd, ui32 pos, ui32 count);
+    void cstr_concat(cstring* cstrd, cstring* cstrs);
     const ui08* cstr_getstring(cstring* csbd);
 #endif
