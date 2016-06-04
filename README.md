@@ -1,5 +1,7 @@
 # c-containers
-Uses nullmem from the following repo: https://github.com/FatalSleep/null-terminated-memory
+Uses memory container from the following repo: https://github.com/FatalSleep/null-terminated-memory
+
+CVector is a derivative of iDestinyKK's CN_Vec: https://github.com/iDestyKK/CN_Vec
 
 Dynamic memory containers for C:
 - CBase (generic container)
