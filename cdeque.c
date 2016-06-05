@@ -112,3 +112,33 @@ void cd_insert(cdeque* cdqu, ui32 pos, type data) {
         }
     }
 };
+
+void cs_remove(cstack* cstk, ui32 pos) {
+    if (cstk->cached == 0)
+        ca_cache((carray*)cstk);
+
+    if (cstk->length > 0) {
+        memmove(cstk->memory->pointer + (pos * cstk->typesz), cstk->memory->pointer + ((pos + 1) * cstk->typesz), (cstk->length - pos) * cstk->typesz);
+
+        cstk->length--;
+        cstk->cached++;
+    }
+};
+
+void cd_remove(cdeque* cdqu, ui32 pos) {
+    if (cdqu->trackback == 0 && cdqu->trackfront == 0) {
+        if (pos < cdqu->backwards->length) {
+            cs_remove(cdqu->backwards, cdqu->trackback + (cdqu->backwards->length - pos));
+        } else {
+            cs_remove(cdqu->forwards, cdqu->trackfront + pos - cdqu->backwards->length);
+        }
+    } else {
+        if (cdqu->forwards->length == 0) {
+            cs_remove(cdqu->backwards, cdqu->trackback + (cdqu->backwards->length - pos));
+        }
+
+        if (cdqu->backwards->length == 0) {
+            cs_remove(cdqu->forwards, cdqu->trackfront + pos - cdqu->backwards->length);
+        }
+    }
+};
