@@ -2,7 +2,7 @@
 #define C_VECTOR
     #include <stdlib.h>
     #include <string.h>
-    #include "carray.h"
+    #include "base/carray.h"
 
     typedef struct c_vector {
         ui32 typesz, cachesz, length, cached;

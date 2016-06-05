@@ -1,7 +1,7 @@
 # c-containers
 Uses memory container from the following repo: https://github.com/FatalSleep/null-terminated-memory
 
-CVector is a derivative of iDestinyKK's CN_Vec: https://github.com/iDestyKK/CN_Vec
+CVector is a derivative of iDestyKK's CN_Vec: https://github.com/iDestyKK/CN_Vec
 
 Dynamic memory containers for C:
 - CArray (generic container)

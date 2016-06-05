@@ -1,7 +1,7 @@
 #include "carray.h"
 #pragma region Alloc / Free
 carray* ca_alloc(ui32 structsz, ui32 typesz, ui32 cachesz) {
-    carray* cstk = (carray*) calloc(structsz, sizeof(ui08));
+    carray* cstk = (carray*) calloc(structsz, typesz);
     cstk->typesz = typesz;
     cstk->cachesz = cachesz;
     cstk->length = 0;
