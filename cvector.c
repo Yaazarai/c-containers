@@ -7,8 +7,8 @@ void cv_pushback(cvector* cvec, type data) {
 
     memcpy(cvec->memory->pointer + (cvec->length * cvec->typesz), data, cvec->typesz);
     
-    cvec->length ++;
-    cvec->cached --;
+    cvec->length++;
+    cvec->cached--;
 };
 
 void cv_pushfront(cvector* cvec, type data) {
@@ -56,7 +56,7 @@ void cv_remove(cvector* cvec, ui32 pos) {
 
 #pragma region Set / Get
 type cv_get(cvector* cvec, ui32 pos) {
-    return (type) *(cvec->memory->pointer + (pos * cvec->typesz));
+    return (type) (cvec->memory->pointer + (pos * cvec->typesz));
 };
 
 void cv_set(cvector* cvec, ui32 pos, type data) {

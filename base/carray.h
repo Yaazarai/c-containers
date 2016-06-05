@@ -17,7 +17,7 @@
 #define C_ARRAY
     #include <stdlib.h>
     #include <string.h>
-    #include "memory.h"
+    #include "../memory/memory.h"
     
     typedef unsigned int ui32;
     typedef unsigned char ui08;
@@ -39,7 +39,7 @@
     typedef struct ca_iter {
         void* memory;
         ui08* iteration;
-        enum cbiterpos iterpos;
+        cbiterpos iterpos;
     } cbiter;
 
     carray* ca_alloc(ui32 strcsz, ui32 typesz, ui32 cachesz);
