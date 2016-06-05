@@ -8,6 +8,7 @@ Dynamic memory containers for C:
 - CVector
 - CStack
 - CString (Uses CVector not CArray)
+- CDeque (Uses 2 CStacks not CArray)
 
 --
 This library exploits how the C compiler assigns memory addresses to structs in order to create generic containers. The compiler will always assign memory addresses for members of a struct in the same order they were initialized. If we take two different structs and give them the same starting variables in the same order, essentially C can't tell the difference when we cast between them.
