@@ -27,4 +27,5 @@
     void cd_popback(cdeque* cdqu);
     void cd_popfront(cdeque* cdqu);
     void cd_insert(cdeque* cdqu, ui32 pos, type data);
+    void cd_remove(cdeque* cdqu, ui32 pos);
 #endif
