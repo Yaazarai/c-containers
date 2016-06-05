@@ -54,6 +54,7 @@ void cd_popback(cdeque* cdqu) {
     } else {
         if (cdqu->backwards->length == 0)
             return;
+
         memset(cdqu->backwards->memory->pointer + (cdqu->trackback * cdqu->backwards->typesz), 0, cdqu->backwards->typesz);
 
         cdqu->trackback++;
@@ -78,5 +79,36 @@ void cd_popfront(cdeque* cdqu) {
 
         if (cdqu->forwards->length == 0)
             cdqu->trackfront = 0;
+    }
+};
+
+void cs_insert(cstack* cstk, ui32 pos, type data) {
+    if (cstk->cached == 0)
+        ca_cache((carray*)cstk);
+
+    if (cstk->length > 0)
+        memmove(cstk->memory->pointer + ((pos + 1) * cstk->typesz), cstk->memory->pointer + (pos * cstk->typesz), (cstk->length - pos) * cstk->typesz);
+
+    memcpy(cstk->memory->pointer + (pos * cstk->typesz), data, cstk->typesz);
+
+    cstk->length++;
+    cstk->cached--;
+};
+
+void cd_insert(cdeque* cdqu, ui32 pos, type data) {
+    if (cdqu->trackback == 0 && cdqu->trackfront == 0) {
+        if (pos < cdqu->backwards->length) {
+            cs_insert(cdqu->backwards, cdqu->trackback + (cdqu->backwards->length - pos), data);
+        } else {
+            cs_insert(cdqu->forwards, cdqu->trackfront + pos - cdqu->backwards->length, data);
+        }
+    } else {
+        if (cdqu->forwards->length == 0) {
+            cs_insert(cdqu->backwards, cdqu->trackback + (cdqu->backwards->length - pos), data);
+        }
+
+        if (cdqu->backwards->length == 0) {
+            cs_insert(cdqu->forwards, cdqu->trackfront + pos - cdqu->backwards->length, data);
+        }
     }
 };
