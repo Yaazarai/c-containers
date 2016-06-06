@@ -21,6 +21,7 @@
     #define cs_count(ptr) ca_countg(ptr)
 
     type cs_top(cstack* cstk);
+    type cs_get(cstack* cstk, ui32 pos);
     void cs_push(cstack* cstk, type data);
     void cs_pop(cstack* cstk);
 #endif
