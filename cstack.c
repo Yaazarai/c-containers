@@ -5,6 +5,10 @@ type cs_top(cstack* cstk) {
     return (type) (cstk->memory->pointer + ((cstk->length - 1) * cstk->typesz));
 };
 
+type cs_get(cstack* cstk, ui32 pos) {
+    return (type) (cstk->memory->pointer + (pos * cstk->typesz));
+};
+
 void cs_push(cstack* cstk, type data) {
     if (cstk->cached == 0)
         ca_cache((carray*) cstk);
