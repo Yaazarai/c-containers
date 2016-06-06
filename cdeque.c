@@ -24,6 +24,22 @@ type cd_bottom(cdeque* cdqu) {
     return cs_top(cdqu->backwards);
 };
 
+type cd_get(cdeque* cdqu, ui32 pos) {
+    if (cdqu->trackback == 0 && cdqu->trackfront == 0) {
+        if (pos < cdqu->backwards->length) {
+            return (type) (cdqu->backwards + cdqu->trackback + (cdqu->backwards->length - pos));
+        } else {
+            return (type) (cdqu->forwards + cdqu->trackfront + (pos - cdqu->backwards->length));
+        }
+    } else {
+        if (cdqu->forwards->length == 0) {
+            return (type) (cdqu->backwards + cdqu->trackback + (cdqu->backwards->length - pos));
+        } else if (cdqu->backwards->length == 0) {
+            return (type) (cdqu->forwards + cdqu->trackfront + (pos - cdqu->backwards->length));
+        }
+    }
+};
+
 void cd_pushback(cdeque* cdqu, type data) {
     if (cdqu->trackback == 0) {
         cs_push(cdqu->forwards, data);
