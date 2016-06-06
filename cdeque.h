@@ -22,6 +22,7 @@
     void cd_free(cdeque* cstr);
     type cd_top(cdeque* cdqu);
     type cd_bottom(cdeque* cdqu);
+    type cd_get(cdeque* cdqu, ui32 pos);
     void cd_pushback(cdeque* cdqu, type data);
     void cd_pushfront(cdeque* cdqu, type data);
     void cd_popback(cdeque* cdqu);
